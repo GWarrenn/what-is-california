@@ -1,0 +1,4 @@
+Flask @ file:///home/ktietz/src/ci/flask_1611932660458/work
+psycopg2-binary==2.9.3
+gunicorn==20.1.0
+Werkzeug @ file:///tmp/build/80754af9/werkzeug_1635505089296/work

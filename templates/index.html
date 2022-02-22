@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>What is California?</title>
+        <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+        <link href="https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css" rel="stylesheet">
+        <script src="https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+        <style>
+        body { margin: 0; padding: 0; }
+        #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+        #export, #updateDataset {
+            position: absolute;
+            top:360px;
+            left:10px;
+            z-index:100;
+            background-color:white;
+            color:black;
+            padding:6px;
+            border-radius:4px;
+            font-family: 'Helvetica Neue';
+            cursor: pointer;
+            font-size:16px;
+            text-decoration:none;
+            background-repeat: no-repeat;
+            background-position: -4245px -3px;
+            height: 20px;
+            width: 55px;
+            color: 'black';
+            content: 'Submit';
+        }
+        #export:hover, #updateDataset:hover {
+            background-color: #ddd;
+        }
+        #updateDataset {
+            background-position: -4324px -3px;
+            top: 300px;
+        }
+        body, .mapboxgl-popup {
+            font-family: 'Helvetica Neue';
+            font-size:14px;
+            text-align: start;
+        }
+        .map-info {
+            position: absolute;
+            width: 480px;
+            top: 12px;
+            left: 12px;
+            z-index: 9;
+        }
+        .map-info-header {
+            display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        .map-title {
+            font-size: 16px;
+            text-align: center;
+            margin: 0;
+            color: white
+        }
+        .geocoder {
+            position: absolute;
+            z-index: 200;
+            width: 50%;
+            left: 50%;
+            margin-left: 1%;
+            top: -10px;
+        }
+        .mapboxgl-ctrl-geocoder {
+            min-width: 100%;
+        }
+        .dropdown {
+            display: inline-block;
+            position: relative;
+            top:40px;
+            left:10px;
+            z-index:100;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            width: 100%;
+            overflow: auto;
+            box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.4);
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .dropdown-content a {
+            display: block;
+            color: #FFFFFF;
+            padding: 5px;
+            text-decoration: none;
+        }
+        .dropdown-content a:hover {
+            color: #FFFFFF;
+            background-color: #00A4BD;
+        }
+        .dropdown_2 {
+            display: block;
+            position: relative;
+            top:50px;
+            left:10px;
+            z-index:100;
+            text-align: left;
+        }
+        .dropdown_3 {
+            display: block;
+            position: relative;
+            top:60px;
+            left:10px;
+            z-index:100;
+            text-align: left;
+        }
+        .dropdown_4 {
+            display: block;
+            position: relative;
+            top:70px;
+            left:10px;
+            z-index:100;
+            text-align: left;
+        }
+        .dropdown_5 {
+            text-align: left;
+            display: block;
+            position: relative;
+            top:80px;
+            left:10px;
+            z-index:100;
+        }
+        .dropdown_6 {
+            text-align: left;
+            display: block;
+            position: relative;
+            top:90px;
+            left:10px;
+            z-index:100;
+        }
+        .dropdown_7 {
+            display: block;
+            position: relative;
+            top:50px;
+            left:10px;
+            z-index:100;
+            text-align: left;
+        }
+
+        label {
+            display: inline-block;
+            width: 250px;
+            text-align: right;
+        }
+        .demobox_border {
+            position: absolute;
+            border: 2px solid rgba(255,255,255, 1);
+            width: 500px;
+            height:280px;
+            background-color: rgba(255,255,255, .5);
+            z-index: 1;
+        }
+        </style>
+    </head>
+<body>
+
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js"></script>
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.css" type="text/css">
+<script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.2/mapbox-gl-draw.js"></script>
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.2/mapbox-gl-draw.css" type="text/css">
+
+<div class="demobox_border">
+    <div class="map-info">
+        <div class="map-info-header">
+        <div class="map-title">
+            What is Northern/Southern California?
+        </div>
+        </div>
+    </div>
+    <div class="dropdown">
+        <label for="born_ca">Were you born in California?</label>
+        <select name="born_ca" id="born_ca" onchange='CheckColors(this.value);'> 
+        <option value="default">(Select)</option>
+        <option value="native">Yes</option>
+        <option value="non_native">No</option>
+        </select> 
+    </div>
+    <p>
+    <div class="dropdown_7">
+        <label for="geocoder">What city did you grow up in?</label>
+        <div name="geocoder" id="geocoder" class="geocoder" style='display:none;'></div>
+    </div>
+    </p>
+    <div class="dropdown_2">
+        <label for="currently_ca">Do you currently/ever lived in CA?</label>
+        <select id="currently_ca" name="currently_ca" onchange="change();">
+            <option value="default">(Select)</option>
+            <option value="1">Yes, currently live in CA</option>
+            <option value="2">Yes, have lived in the past</option>
+            <option value="3">No, never lived in CA</option>
+        </select>
+    </div>
+    <div class="dropdown_3">
+        <label for="years_live_ca">If so, how many years?</label>
+        <select id="years_live_ca" name="years_live_ca">
+            <option value="default">(Select)</option>
+            <option value="1">0-2 years</option>
+            <option value="2">2-5 years</option>
+            <option value="3">5-10 years</option>
+            <option value="4">10-20 years</option>
+            <option value="5">20+ years</option>
+            <option value="6">N/A</option>
+        </select>
+    </div>
+
+    <div class="dropdown_4">
+        <label for="born_state">Where were you born?</label>
+        <select id="born_state" name="born_state">
+            <option value="default">(Select)</option>
+            <option value="N/A">Outside of US</option>
+            <option value="AL">Alabama</option>
+            <option value="AK">Alaska</option>
+            <option value="AZ">Arizona</option>
+            <option value="AR">Arkansas</option>
+            <option value="CA">California</option>
+            <option value="CO">Colorado</option>
+            <option value="CT">Connecticut</option>
+            <option value="DE">Delaware</option>
+            <option value="DC">District Of Columbia</option>
+            <option value="FL">Florida</option>
+            <option value="GA">Georgia</option>
+            <option value="HI">Hawaii</option>
+            <option value="ID">Idaho</option>
+            <option value="IL">Illinois</option>
+            <option value="IN">Indiana</option>
+            <option value="IA">Iowa</option>
+            <option value="KS">Kansas</option>
+            <option value="KY">Kentucky</option>
+            <option value="LA">Louisiana</option>
+            <option value="ME">Maine</option>
+            <option value="MD">Maryland</option>
+            <option value="MA">Massachusetts</option>
+            <option value="MI">Michigan</option>
+            <option value="MN">Minnesota</option>
+            <option value="MS">Mississippi</option>
+            <option value="MO">Missouri</option>
+            <option value="MT">Montana</option>
+            <option value="NE">Nebraska</option>
+            <option value="NV">Nevada</option>
+            <option value="NH">New Hampshire</option>
+            <option value="NJ">New Jersey</option>
+            <option value="NM">New Mexico</option>
+            <option value="NY">New York</option>
+            <option value="NC">North Carolina</option>
+            <option value="ND">North Dakota</option>
+            <option value="OH">Ohio</option>
+            <option value="OK">Oklahoma</option>
+            <option value="OR">Oregon</option>
+            <option value="PA">Pennsylvania</option>
+            <option value="RI">Rhode Island</option>
+            <option value="SC">South Carolina</option>
+            <option value="SD">South Dakota</option>
+            <option value="TN">Tennessee</option>
+            <option value="TX">Texas</option>
+            <option value="UT">Utah</option>
+            <option value="VT">Vermont</option>
+            <option value="VA">Virginia</option>
+            <option value="WA">Washington</option>
+            <option value="WV">West Virginia</option>
+            <option value="WI">Wisconsin</option>
+            <option value="WY">Wyoming</option>
+        </select>	
+    </div>
+
+    <div class="dropdown_5">
+        <label for="live_state">Where are you currently living?</label>
+        <select id="live_state" name="live_state">
+            <option value="default">(Select)</option>
+            <option value="N/A">Outside of US</option>
+            <option value="AL">Alabama</option>
+            <option value="AK">Alaska</option>
+            <option value="AZ">Arizona</option>
+            <option value="AR">Arkansas</option>
+            <option value="CA">California</option>
+            <option value="CO">Colorado</option>
+            <option value="CT">Connecticut</option>
+            <option value="DE">Delaware</option>
+            <option value="DC">District Of Columbia</option>
+            <option value="FL">Florida</option>
+            <option value="GA">Georgia</option>
+            <option value="HI">Hawaii</option>
+            <option value="ID">Idaho</option>
+            <option value="IL">Illinois</option>
+            <option value="IN">Indiana</option>
+            <option value="IA">Iowa</option>
+            <option value="KS">Kansas</option>
+            <option value="KY">Kentucky</option>
+            <option value="LA">Louisiana</option>
+            <option value="ME">Maine</option>
+            <option value="MD">Maryland</option>
+            <option value="MA">Massachusetts</option>
+            <option value="MI">Michigan</option>
+            <option value="MN">Minnesota</option>
+            <option value="MS">Mississippi</option>
+            <option value="MO">Missouri</option>
+            <option value="MT">Montana</option>
+            <option value="NE">Nebraska</option>
+            <option value="NV">Nevada</option>
+            <option value="NH">New Hampshire</option>
+            <option value="NJ">New Jersey</option>
+            <option value="NM">New Mexico</option>
+            <option value="NY">New York</option>
+            <option value="NC">North Carolina</option>
+            <option value="ND">North Dakota</option>
+            <option value="OH">Ohio</option>
+            <option value="OK">Oklahoma</option>
+            <option value="OR">Oregon</option>
+            <option value="PA">Pennsylvania</option>
+            <option value="RI">Rhode Island</option>
+            <option value="SC">South Carolina</option>
+            <option value="SD">South Dakota</option>
+            <option value="TN">Tennessee</option>
+            <option value="TX">Texas</option>
+            <option value="UT">Utah</option>
+            <option value="VT">Vermont</option>
+            <option value="VA">Virginia</option>
+            <option value="WA">Washington</option>
+            <option value="WV">West Virginia</option>
+            <option value="WI">Wisconsin</option>
+            <option value="WY">Wyoming</option>
+        </select>	
+    </div>
+    <div class="dropdown_6">
+        <label for="care">How strongly do you feel?</label>
+        <select id="care" name="care">
+            <option value="default">(Select)</option>
+            <option value="1">Not strongly at all</option>
+            <option value="2">A little</option>
+            <option value="3">Moderately</option>
+            <option value="4">Somewhat Strongly</option>
+            <option value="5">Very Strongly</option>
+        </select>
+    </div>
+</div>
+
+<div id="map"></div> 
+<!-- <button> <a href="/submit" id='updateDataset'>Submit</a></button> --> 
+<a href="#" id='updateDataset' name="send_data_py">Submit</a>
+<a href="#" id='DrawButton'>Draw</a>
+
+<script>
+
+function send_data(){
+    xml = new XMLHttpRequest()
+    xml.open("POST","{{url_for('send_data_py')}}",true);
+    xml.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    xml.onload = function(){
+        var dataReply = JSON.parse(this.responseText);
+        if (dataReply['connection_status'] == true){
+            alert("Entry Submitted -- Thank you!")
+        }
+        else{
+            alert("Uh-oh! Issue with data submission.")
+        }
+    }
+
+    // processing user-inputs
+
+    drawnData = draw.getAll();
+
+    var ca_native = document.getElementById("born_ca").value;
+    var ca_hometown = document.getElementById("geocoder").value;
+    if(ca_hometown == null){
+        ca_hometown = 'N/A'
+    }    
+    var currently_live = document.getElementById("currently_ca").value;
+    var live_years = document.getElementById("years_live_ca").value;
+    var state_born = document.getElementById("born_state").value;
+    var state_live = document.getElementById("live_state").value;
+
+    if (ca_native == "default" || currently_live == "default" || live_years == "default" || state_born == "default" || state_live == "default"){
+        alert('Hmmm, it looks like some information is missing. Please make sure every field is filled out');
+        return
+    }
+
+    if (drawnData.features.length == 0){
+        alert("Hmm, there seems to be a problem with your North/South border line. Please make sure you've properly drawn the border.")
+        return
+    }
+
+    if (drawnData.features[0].geometry.coordinates.length < 2){
+        alert("Hmm, there seems to be a problem with your North/South border line. Please make sure you've properly drawn the border.")
+        return
+    }
+
+    results = {"id": drawnData["features"][0]["id"],
+               "coordinates": drawnData["features"][0]["geometry"]["coordinates"],
+               "demo_ca_native":ca_native,
+               "demo_ca_hometown":ca_hometown,
+               "demo_currently_live":currently_live,
+               "demo_live_years":live_years,
+               "demo_state_born":state_born,
+               "demo_state_live":state_live
+            }
+
+    dataSend = JSON.stringify(results);
+
+    xml.send(dataSend)
+}
+
+mapboxgl.accessToken = 'pk.eyJ1IjoiZ3dhcnJlbm4iLCJhIjoiY2t6eWo3ZHhvMDBzbTNjcXhyMnp0dWV1YiJ9.B7ody_AAF4KaYqeD1LMQBw';
+var map = new mapboxgl.Map({
+    container: 'map', // container id
+    style: 'mapbox://styles/mapbox/dark-v8', //stylesheet location
+    center: [-120.72684611398834,36.94886821245771], // starting position
+    zoom: 5 // starting zoom
+});
+
+var draw = new MapboxDraw({
+        displayControlsDefault: false,
+        controls: {
+            polygon: false,
+            trash: true
+        },
+        defaultMode: 'draw_line_string'
+    });
+
+map.on('load', function(){
+
+    map.addControl(draw);
+
+    document.getElementById('updateDataset').onclick = function(e) {
+        e.preventDefault();
+        send_data();
+    }
+
+});
+
+const geocoder = new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken,
+    mapboxgl: mapboxgl
+});
+ 
+document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
+
+function change() {
+  if (document.getElementById('currently_ca').value == '1')
+    document.getElementById("years_live_ca").value = '1';
+  else if (document.getElementById('currently_ca').value == '2')
+    document.getElementById("years_live_ca").value = '1';
+  else if (document.getElementById('currently_ca').value == '3')
+    document.getElementById("years_live_ca").value = '6';
+  if (document.getElementById('currently_ca').value == '1')
+    document.getElementById("live_state").value = 'CA';
+};
+
+function change_1() {
+  if (document.getElementById('born_ca').value == 'native')
+    document.getElementById("born_state").value = 'CA';
+  else if (document.getElementById('born_ca').value == 'non_native')
+    document.getElementById("born_state").value = 'AL';
+};
+
+function CheckColors(val){
+ var element=document.getElementById('geocoder');
+ console.log(element)
+ if(val=='native'){
+    element.style.display='inline-block';
+    }  
+ else{
+    element.style.display='none';
+ }
+}
+
+</script>
+
+</body>
+</html>
