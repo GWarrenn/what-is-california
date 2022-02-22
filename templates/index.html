@@ -162,6 +162,17 @@
             background-color: rgba(255,255,255, .5);
             z-index: 1;
         }
+        .information {
+            position: absolute;
+            border: 2px solid rgba(255,255,255, 1);
+            padding: 5px;
+            width: 500px;
+            bottom: 30px;
+            text-align: left;
+            width: 30%;
+            background-color: rgba(255,255,255, .5);
+            z-index: 1;
+        }
         </style>
     </head>
 <body>
@@ -334,16 +345,24 @@
         </select>	
     </div>
     <div class="dropdown_6">
-        <label for="care">How strongly do you feel?</label>
+        <label for="care">How important is this boundary to you?</label>
         <select id="care" name="care">
             <option value="default">(Select)</option>
-            <option value="1">Not strongly at all</option>
-            <option value="2">A little</option>
-            <option value="3">Moderately</option>
-            <option value="4">Somewhat Strongly</option>
-            <option value="5">Very Strongly</option>
+            <option value="1">Not at all</option>
+            <option value="2">Not too much</option>
+            <option value="3">Somewhat important</option>
+            <option value="4">Very important</option>
         </select>
     </div>
+</div>
+
+<div class="information">
+    <p>
+        <b>What is this?</b> Welcome to the definitive crowdsourcing of Northern/Southern California. Use your mouse to draw what you think is the border between Northern & Southern California by pointing and clicking, as well as some additional information about yourself.
+    </br>
+    </br>
+        Questions? Contact August Warren (<a href="mailto:augustjwarren@gmail.com">augustjwarren@gmail.com</a> or <a href="https://twitter.com/gus_warren">@gus_warren</a>)
+    </p>
 </div>
 
 <div id="map"></div> 
