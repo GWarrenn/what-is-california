@@ -523,6 +523,11 @@ var draw = new MapboxDraw({
 
 map.on('load', function(){
 
+    var mobile = (/iphone|ipad|ipod|android|blackberry|mini|windows\sce|palm/i.test(navigator.userAgent.toLowerCase()));
+    if (mobile) {
+        alert("Hey there! Looks like you're on a mobile device.\nPhones are cool and all, and while this tool will work on mobile, it was designed with desktop in mind. So bear that in mind.");              
+    }
+    
     map.addControl(draw);
 
     document.getElementById('updateDataset').onclick = function(e) {
