@@ -57,7 +57,7 @@
             margin-bottom: 8px;
         }
         .map-title {
-            font-size: 16px;
+            font-size: 20px;
             text-align: center;
             margin: 0;
             color: white
@@ -65,78 +65,17 @@
         .geocoder {
             position: absolute;
             z-index: 200;
-            width: 50%;
             left: 50%;
             margin-left: 1%;
             top: -10px;
         }
         .mapboxgl-ctrl-geocoder {
-            min-width: 100%;
+            width: 3000px;
         }
         .dropdown {
-            display: inline-block;
+            display: block;
             position: relative;
             top:40px;
-            left:10px;
-            z-index:100;
-        }
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            width: 100%;
-            overflow: auto;
-            box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.4);
-        }
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-        .dropdown-content a {
-            display: block;
-            color: #FFFFFF;
-            padding: 5px;
-            text-decoration: none;
-        }
-        .dropdown-content a:hover {
-            color: #FFFFFF;
-            background-color: #00A4BD;
-        }
-        .dropdown_2 {
-            display: block;
-            position: relative;
-            top:50px;
-            left:10px;
-            z-index:100;
-            text-align: left;
-        }
-        .dropdown_3 {
-            display: block;
-            position: relative;
-            top:60px;
-            left:10px;
-            z-index:100;
-            text-align: left;
-        }
-        .dropdown_4 {
-            display: block;
-            position: relative;
-            top:70px;
-            left:10px;
-            z-index:100;
-            text-align: left;
-        }
-        .dropdown_5 {
-            text-align: left;
-            display: block;
-            position: relative;
-            top:80px;
-            left:10px;
-            z-index:100;
-        }
-        .dropdown_6 {
-            text-align: left;
-            display: block;
-            position: relative;
-            top:90px;
             left:10px;
             z-index:100;
         }
@@ -148,17 +87,56 @@
             z-index:100;
             text-align: left;
         }
-
+        .dropdown_2 {
+            display: block;
+            position: relative;
+            top:60px;
+            left:10px;
+            z-index:100;
+            text-align: left;
+        }
+        .dropdown_3 {
+            display: block;
+            position: relative;
+            top:70px;
+            left:10px;
+            z-index:100;
+            text-align: left;
+        }
+        .dropdown_4 {
+            display: block;
+            position: relative;
+            top:80px;
+            left:10px;
+            z-index:100;
+            text-align: left;
+        }
+        .dropdown_5 {
+            text-align: left;
+            display: block;
+            position: relative;
+            top:90px;
+            left:10px;
+            z-index:100;
+        }
+        .dropdown_6 {
+            text-align: left;
+            display: block;
+            position: relative;
+            top:100px;
+            left:10px;
+            z-index:100;
+        }
         label {
             display: inline-block;
-            width: 250px;
-            text-align: right;
+            width: 50%;
+            text-align: left;
         }
         .demobox_border {
             position: absolute;
             border: 2px solid rgba(255,255,255, 1);
             width: 500px;
-            height:280px;
+            height: 35%;
             background-color: rgba(255,255,255, .5);
             z-index: 1;
         }
@@ -171,6 +149,70 @@
             text-align: left;
             background-color: rgba(255,255,255, .5);
             z-index: 1;
+            font-size:12px;
+        }
+
+        /* Smartphones (portrait and landscape) ----------- */
+        @media only screen 
+        and (min-device-width : 270px) 
+        and (max-device-width : 480px) {
+            .map-title {
+            font-size: 16px;
+            text-align: center;
+            margin: 0;
+            color: white
+            }
+            label {
+                display: inline-block;
+                width: 40%;
+                text-align: left;
+                font-size: 2.8vw;
+                padding: 0px;
+            }
+            .demobox_border {
+                position: absolute;
+                border: 2px solid rgba(255,255,255, 1);
+                width: 90%;
+                height: 40%;
+                background-color: rgba(255,255,255, .5);
+                z-index: 1;
+            }
+            .geocoder {
+                position: absolute;
+                z-index: 200;
+                left: 40%;
+                margin-left: 1%;
+                top: -10px;
+            }
+            .information {
+                position: absolute;
+                bottom: 2;
+                width: 100%;
+                height: 10%;
+                border: 2px solid rgba(255,255,255, 1);
+                text-align: left;
+                background-color: rgba(255,255,255, .5);
+                z-index: 1;
+                font-size:10px;
+            }
+            #export, #updateDataset {
+                position: absolute;
+                top:45%;
+                left:10px;
+                z-index:100;
+                background-color:white;
+                color:black;
+                padding:8px;
+                border-radius:8px;
+                font-family: 'Helvetica Neue';
+                cursor: pointer;
+                font-size:12px;
+                text-decoration:none;
+                background-repeat: no-repeat;
+                background-position: -4245px -3px;
+                color: 'black';
+                content: 'Submit';
+            }
         }
         </style>
     </head>
@@ -191,21 +233,21 @@
         </div>
     </div>
     <div class="dropdown">
-        <label for="born_ca">Were you born in California?</label>
-        <select name="born_ca" id="born_ca" onchange='CheckColors(this.value);'> 
+        <label> Were you born in California?</label>
+        <select id="born_ca" onchange='CheckColors(this.value);'> 
         <option value="default">(Select)</option>
         <option value="native">Yes</option>
         <option value="non_native">No</option>
         </select> 
     </div>
-    <p>
+
     <div class="dropdown_7">
         <label for="geocoder">What city did you grow up in?</label>
         <div name="geocoder" id="geocoder" class="geocoder" style='display:none;'></div>
     </div>
-    </p>
+
     <div class="dropdown_2">
-        <label for="currently_ca">Do you currently/ever lived in CA?</label>
+        <label>Do you currently/ever lived in CA?</label>
         <select id="currently_ca" name="currently_ca" onchange="change();">
             <option value="default">(Select)</option>
             <option value="1">Yes, currently live in CA</option>
@@ -213,8 +255,9 @@
             <option value="3">No, never lived in CA</option>
         </select>
     </div>
+
     <div class="dropdown_3">
-        <label for="years_live_ca">If so, how many years?</label>
+        <label>If so, how many years?</label>
         <select id="years_live_ca" name="years_live_ca">
             <option value="default">(Select)</option>
             <option value="1">0-2 years</option>
@@ -224,10 +267,11 @@
             <option value="5">20+ years</option>
             <option value="6">N/A</option>
         </select>
+    
     </div>
 
     <div class="dropdown_4">
-        <label for="born_state">Where were you born?</label>
+        <label>Where were you born?</label>
         <select id="born_state" name="born_state">
             <option value="default">(Select)</option>
             <option value="N/A">Outside of US</option>
@@ -283,10 +327,11 @@
             <option value="WI">Wisconsin</option>
             <option value="WY">Wyoming</option>
         </select>	
+    
     </div>
 
     <div class="dropdown_5">
-        <label for="live_state">Where are you currently living?</label>
+        <label>Where are you currently living?</label>
         <select id="live_state" name="live_state">
             <option value="default">(Select)</option>
             <option value="N/A">Outside of US</option>
@@ -342,9 +387,10 @@
             <option value="WI">Wisconsin</option>
             <option value="WY">Wyoming</option>
         </select>	
+    
     </div>
     <div class="dropdown_6">
-        <label for="care">How important is this boundary to you?</label>
+        <label>How important is this boundary to you?</label>
         <select id="care" name="care">
             <option value="default">(Select)</option>
             <option value="1">Not at all</option>
@@ -353,11 +399,14 @@
             <option value="4">Very important</option>
         </select>
     </div>
+
 </div>
 
 <div class="information">
     <p>
-        <b>What is this?</b> Welcome to the definitive crowdsourcing of Northern/Southern California. Use your mouse to draw what you think is the border between Northern & Southern California by pointing and clicking, as well as some additional information about yourself.
+        <b>What is this?</b> Welcome to the definitive survey of Northern/Southern California. Use your mouse to draw what you think is the border 
+        between Northern & Southern California by pointing and clicking, as well as some additional information about yourself.
+        This is <i>kiiinda</i> optimized for web and not so much for mobile. CSS is weird.
     </br>
     </br>
         Questions? Contact August Warren (<a href="mailto:augustjwarren@gmail.com">augustjwarren@gmail.com</a> or <a href="https://twitter.com/gus_warren">@gus_warren</a>)
@@ -365,7 +414,6 @@
 </div>
 
 <div id="map"></div> 
-<!-- <button> <a href="/submit" id='updateDataset'>Submit</a></button> --> 
 <a href="#" id='updateDataset' name="send_data_py">Submit</a>
 <a href="#" id='DrawButton'>Draw</a>
 
@@ -414,6 +462,31 @@ function send_data(){
         return
     }
 
+    //check that the lines exist within a pretty generous boundary box of california -- rooting out hijinks...
+
+    nw = [-128.54733916886764,42.195887416223464]
+    ne = [-115.78634336626394,42.88832611600356]
+    sw = [-123.09804222638257,29.974370533137176]
+    se = [-109.38240447181816,33.72793203041991]
+
+    var ca_polygon = turf.polygon([[
+            nw,
+            sw,
+            se,
+            ne,
+            nw
+            ]], { name: 'californiaaa'});
+
+    points_list = drawnData["features"][0]["geometry"]["coordinates"]
+
+    for (var i = 0; i < points_list.length; i++) { 
+        check = turf.booleanPointInPolygon(points_list[i], ca_polygon);
+        if (check == false){
+            alert("Hmm, one of the points looks to be a bit outside of the exptected boundary for California. Please try again.");
+            return
+        }
+    }
+
     results = {"id": drawnData["features"][0]["id"],
                "coordinates": drawnData["features"][0]["geometry"]["coordinates"],
                "demo_ca_native":ca_native,
@@ -428,6 +501,8 @@ function send_data(){
 
     xml.send(dataSend)
 }
+
+//authenticate with mapbox using restricted public key
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZ3dhcnJlbm4iLCJhIjoiY2t6eWo3ZHhvMDBzbTNjcXhyMnp0dWV1YiJ9.B7ody_AAF4KaYqeD1LMQBw';
 var map = new mapboxgl.Map({
