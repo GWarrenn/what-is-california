@@ -13,7 +13,7 @@
         #map { position: absolute; top: 0; bottom: 0; width: 100%; }
         #export, #updateDataset {
             position: absolute;
-            top:360px;
+            top:38%;
             left:10px;
             z-index:100;
             background-color:white;
@@ -36,7 +36,6 @@
         }
         #updateDataset {
             background-position: -4324px -3px;
-            top: 300px;
         }
         body, .mapboxgl-popup {
             font-family: 'Helvetica Neue';
@@ -202,12 +201,12 @@
                 z-index:100;
                 background-color:white;
                 color:black;
-                padding:8px;
-                border-radius:8px;
+                padding: 4px 8px;
                 font-family: 'Helvetica Neue';
                 cursor: pointer;
-                font-size:12px;
+                font-size:14px;
                 text-decoration:none;
+                text-align: center;
                 background-repeat: no-repeat;
                 background-position: -4245px -3px;
                 color: 'black';
@@ -447,6 +446,19 @@ function send_data(){
     var state_born = document.getElementById("born_state").value;
     var state_live = document.getElementById("live_state").value;
 
+    // get localstorage for tracking, thanks to: https://www.smashingmagazine.com/2010/10/local-storage-and-how-to-use-it/
+    // we'll use the string created by mapbox to uniquely identify users the first time they draw, which is stored in localstorage and in our db
+    // then, the next time they submit a boundary, we'll check to see if the id exists and if it does we'll pull from localstorage rather than mapbox
+    // this will help us identify people submitting an answer more than once on the same device
+
+    if(localStorage.getItem('user_id') == null){
+        localStorage.setItem('user_id',drawnData["features"][0]["id"])
+    }
+
+    var user_id = localStorage.getItem('user_id')
+
+    console.log(user_id)
+
     if (ca_native == "default" || currently_live == "default" || live_years == "default" || state_born == "default" || state_live == "default"){
         alert('Hmmm, it looks like some information is missing. Please make sure every field is filled out');
         return
@@ -487,7 +499,7 @@ function send_data(){
         }
     }
 
-    results = {"id": drawnData["features"][0]["id"],
+    results = {"id": user_id,
                "coordinates": drawnData["features"][0]["geometry"]["coordinates"],
                "demo_ca_native":ca_native,
                "demo_ca_hometown":ca_hometown,
@@ -534,7 +546,6 @@ map.on('load', function(){
         e.preventDefault();
         send_data();
     }
-
 });
 
 const geocoder = new MapboxGeocoder({
