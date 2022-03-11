@@ -356,8 +356,8 @@ function send_data(){
 
     drawnData = draw.getAll();
 
-    var hometown = document.getElementById("geocoder").value;
-    var current_town = document.getElementById("current_geocoder").value;
+    var hometown = geocoder_value
+    var current_town = current_geocoder_value
     var live_years = document.getElementById("years_live_ca").value;
     var californian = document.getElementById("californian").value;
     var care = document.getElementById("care").value;
@@ -484,10 +484,20 @@ const geocoder = new MapboxGeocoder({
  
 document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
 
+geocoder.on('results', function(results) {
+   console.log(results);
+   geocoder_value = results
+})
+
 const current_geocoder = new MapboxGeocoder({
     accessToken: mapboxgl.accessToken,
     mapboxgl: mapboxgl
 });
+
+current_geocoder.on('results', function(results) {
+   console.log(results);
+   current_geocoder_value = results
+})
 
 document.getElementById('current_geocoder').appendChild(current_geocoder.onAdd(map));
 
