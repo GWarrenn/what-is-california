@@ -440,10 +440,14 @@ var map = new mapboxgl.Map({
     zoom: 5 // starting zoom
 });
 
+const nav = new mapboxgl.NavigationControl();
+map.addControl(nav, 'bottom-right');
+
 var draw = new MapboxDraw({
         displayControlsDefault: false,
         controls: {
             polygon: false,
+            line_string: true,
             trash: true
         },
         defaultMode: 'draw_line_string'
@@ -453,7 +457,7 @@ map.on('load', function(){
 
     swal.fire({
         title:'Hello!',
-        html:'Welcome to the definitive survey of Northern/Southern California.<p>Point and click your mouse to draw what you think is the border between Northern & Southern California by pointing and clicking, as well as some additional information about yourself. <p>This is <i>kiiinda</i> optimized for web and not so much for mobile. CSS is weird.',
+        html:"Welcome to the definitive survey of Northern/Southern California.<p><b>Instructions:</b><p> 1. Point and click your mouse to draw what you think is the border between Northern & Southern California<p>2. Fill out the demographic information in the top-left corner<p><b>Tip:</b><p>If you need to delete your line, use the trash icon in the top right and click the line icon above the trash to restart.<p>This is <i>kiiinda</i> optimized for web and not so much for mobile. So if you're on a phone, I recommend bringing this up on a laptop/desktop for ease of use. CSS is weird.",
         icon:"info"        
     })
 
