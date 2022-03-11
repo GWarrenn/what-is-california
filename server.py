@@ -24,14 +24,15 @@ def send_data_py():
       dataGet['updated_coordinates'] = []
 
       for lat,long in dataGet['coordinates']:
-          dataGet['updated_coordinates'].append([float(str(lat)[:12]),float(str(long)[:10])])                            
+          dataGet['updated_coordinates'].append([float(str(lat)[:12]),float(str(long)[:10])])       
 
       cursor = conn.cursor()
-      insert_query = """ INSERT INTO what_is_ca_test (id, coordinates, demo_ca_native, demo_ca_hometown, demo_currently_live, 
-                        demo_live_years, demo_state_born, demo_state_live) 
-                        VALUES ('{}','{}','{}','{}','{}','{}','{}','{}')""".format(dataGet['id'],dataGet['updated_coordinates'],dataGet['demo_ca_native'],
-                                                        dataGet['demo_ca_hometown'],dataGet['demo_currently_live'],
-                                                        dataGet['demo_live_years'],dataGet['demo_state_born'],dataGet['demo_state_live'])
+      insert_query = """ INSERT INTO what_is_ca_test_v2 (id, coordinates, demo_hometown, demo_current_town, demo_live_years, 
+                        demo_californian, demo_care, demo_justify) 
+                        VALUES ('{}','{}','{}','{}','{}','{}','{}','{}')""".format(dataGet['id'],dataGet['updated_coordinates'],
+                                                        dataGet['demo_hometown'],dataGet['demo_current_town'],
+                                                        dataGet['demo_live_years'],dataGet['demo_californian'],
+                                                        dataGet['demo_care'],dataGet['demo_justify'])
       cursor.execute(insert_query)
       conn.commit()
       conn.close()
