@@ -33,6 +33,9 @@
             color: 'black';
             content: 'Submit';
         }
+        .swal-wide{
+            width:50% !important;
+        }
         #export:hover, #updateDataset:hover {
             background-color: #ddd;
         }
@@ -65,14 +68,12 @@
         }
         .geocoder {
             position: absolute;
-            z-index: 200;
             left: 50%;
             margin-left: 1%;
             top: -5px;
         }
         .current_geocoder {
             position: absolute;
-            z-index: 200;
             left: 50%;
             margin-left: 1%;
             top: -5px;
@@ -92,7 +93,7 @@
             position: relative;
             top:50px;
             left:10px;
-            z-index:100;
+            z-index:1002;
             text-align: left;
         }
         .dropdown_2 {
@@ -116,7 +117,7 @@
             position: relative;
             top:80px;
             left:10px;
-            z-index:100;
+            z-index:1001;
             text-align: left;
         }
         .dropdown_5 {
@@ -356,8 +357,8 @@ function send_data(){
 
     drawnData = draw.getAll();
 
-    var hometown = geocoder_value
-    var current_town = current_geocoder_value
+    var hometown = geocoder_value["features"][0]["center"]
+    var current_town = current_geocoder_value["features"][0]["center"]
     var live_years = document.getElementById("years_live_ca").value;
     var californian = document.getElementById("californian").value;
     var care = document.getElementById("care").value;
@@ -455,17 +456,19 @@ var draw = new MapboxDraw({
 
 map.on('load', function(){
 
-    swal.fire({
-        title:'Hello!',
-        html:"Welcome to the definitive survey of Northern/Southern California.<p><b>Instructions:</b><p> 1. Point and click your mouse to draw what you think is the border between Northern & Southern California<p>2. Fill out the demographic information in the top-left corner<p><b>Tip:</b><p>If you need to delete your line, use the trash icon in the top right and click the line icon above the trash to restart.<p>This is <i>kiiinda</i> optimized for web and not so much for mobile. So if you're on a phone, I recommend bringing this up on a laptop/desktop for ease of use. CSS is weird.",
-        icon:"info"        
-    })
-
     start_time = new Date()
 
     var mobile = (/iphone|ipad|ipod|android|blackberry|mini|windows\sce|palm/i.test(navigator.userAgent.toLowerCase()));
     if (mobile) {
         alert("Hey there! Looks like you're on a mobile device.\nPhones are cool and all, and while this tool will work on mobile, it was designed with desktop in mind. So bear that in mind.");              
+    }
+    else{
+        swal.fire({
+            title:'Hello!',
+            html:"Welcome to the definitive survey of Northern/Southern California.<p><b>Instructions:</b><p> 1. The line drawing tool is ready-to-go once you hit OK below. Point and click your mouse to draw what you think is the border between Northern & Southern California. To finish the line, double-click on the final line.<p>2. Fill out the demographic information in the top-left corner and hit Submit!<p><b>Tip:</b><p>If you need to delete your line, use the trash icon in the top right and click the line icon above the trash to restart.",
+            icon:"info",
+            customClass: 'swal-wide',        
+        })
     }
     
     map.addControl(draw);
@@ -483,6 +486,7 @@ const geocoder = new MapboxGeocoder({
 });
  
 document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
+//map.addControl(geocoder); 
 
 geocoder.on('results', function(results) {
    console.log(results);
