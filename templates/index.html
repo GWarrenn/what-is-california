@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>What is California?</title>
-        <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+        <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' />
         <link href="https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css" rel="stylesheet">
         <script src="https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -172,7 +172,7 @@
                 width: 230px
         }
 
-        /* Smartphones (portrait and landscape) ----------- */
+        /* Smartphones smh */
         @media only screen 
         and (min-device-width : 270px) 
         and (max-device-width : 480px) {
@@ -189,11 +189,14 @@
                 font-size: 2.8vw;
                 padding: 0px;
             }
+            .dropdown_7 {
+                font-size: 2.8vw;
+            }
             .demobox_border {
                 position: absolute;
                 border: 2px solid rgba(255,255,255, 1);
                 width: 99%;
-                height: 33%;
+                height: 40%;
                 background-color: rgba(255,255,255, .5);
                 z-index: 1;
             }
@@ -206,7 +209,7 @@
                 text-align: left;
             }
             .justify{
-                width: 230px;
+                width: 50%;
             }
             .geocoder {
                 position: absolute;
@@ -235,7 +238,7 @@
             }
             #export, #updateDataset {
                 position: absolute;
-                top:35%;
+                top:42%;
                 left:10px;
                 z-index:100;
                 background-color:white;
@@ -482,24 +485,24 @@ map.on('load', function(){
 
 const geocoder = new MapboxGeocoder({
     accessToken: mapboxgl.accessToken,
-    mapboxgl: mapboxgl
+    mapboxgl: mapboxgl,
+    flyto : false
 });
  
 document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
 //map.addControl(geocoder); 
 
 geocoder.on('results', function(results) {
-   console.log(results);
    geocoder_value = results
 })
 
 const current_geocoder = new MapboxGeocoder({
     accessToken: mapboxgl.accessToken,
-    mapboxgl: mapboxgl
+    mapboxgl: mapboxgl,
+    flyto : false
 });
 
 current_geocoder.on('results', function(results) {
-   console.log(results);
    current_geocoder_value = results
 })
 
