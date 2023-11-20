@@ -16,7 +16,14 @@ def send_data_py():
     try:
 
       DATABASE_URL = os.environ.get('DATABASE_URL')
-      conn = psycopg2.connect(DATABASE_URL)
+      # conn = psycopg2.connect(DATABASE_URL)
+      conn = psycopg2.connect(
+        host=os.environ.get('db_host'),
+        database=os.environ.get('db_database'),
+        user=os.environ.get('db_username'),
+        password=os.environ.get('db_password'),
+        port=5432
+      )
 
       ## mapbox gives us an extremely accurate/detailed set of coordinates.
       ## this is great but is largely unneccesary and will be more expensive to store
@@ -43,10 +50,9 @@ def send_data_py():
       connection_success = True
 
     except Exception as e:
-      print(e)
       connection_success = False
 
-    dataReply = {'connection_status':connection_success}
+    dataReply = {'connection_status':connection_success,'connection_error':e}
 
     return jsonify(dataReply)
 
