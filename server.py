@@ -27,7 +27,7 @@ def send_data_py():
           dataGet['updated_coordinates'].append([float(str(lat)[:12]),float(str(long)[:10])])       
 
       cursor = conn.cursor()
-      insert_query = """ INSERT INTO what_is_ca_test_v2 (id, coordinates, demo_hometown, demo_current_town, demo_live_years, 
+      insert_query = """ INSERT INTO what_is_ca_survey (id, coordinates, demo_hometown, demo_current_town, demo_live_years, 
                         demo_californian, demo_care, demo_justify) 
                         VALUES ('{}','{}','{}','{}','{}','{}','{}','{}')""".format(dataGet['id'],dataGet['updated_coordinates'],
                                                         dataGet['demo_hometown'],dataGet['demo_current_town'],
