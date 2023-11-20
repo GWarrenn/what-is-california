@@ -34,15 +34,13 @@ def send_data_py():
           dataGet['updated_coordinates'].append([float(str(lat)[:12]),float(str(long)[:10])])       
 
       cursor = conn.cursor()
-      # insert_query = """ INSERT INTO what_is_ca_survey (id, coordinates, demo_hometown, demo_current_town, demo_live_years, 
-      #                   demo_californian, demo_care, demo_justify) 
-      #                   VALUES ('{}','{}','{}','{}','{}','{}','{}','{}')""".format(dataGet['id'],dataGet['updated_coordinates'],
-      #                                                   dataGet['demo_hometown'],dataGet['demo_current_town'],
-      #                                                   dataGet['demo_live_years'],dataGet['demo_californian'],
-      #                                                   dataGet['demo_care'],dataGet['demo_justify'])
       insert_query = """ INSERT INTO what_is_ca_survey (id, coordinates, demo_hometown, demo_current_town, demo_live_years, 
-                  demo_californian, demo_care, demo_justify) 
-                  VALUES ('test','test',test','test','test','test','test','test')"""
+                        demo_californian, demo_care, demo_justify) 
+                        VALUES ('{}','{}','{}','{}','{}','{}','{}','{}')""".format(dataGet['id'],dataGet['updated_coordinates'],
+                                                        dataGet['demo_hometown'],dataGet['demo_current_town'],
+                                                        dataGet['demo_live_years'],dataGet['demo_californian'],
+                                                        dataGet['demo_care'],dataGet['demo_justify'])
+
       cursor.execute(insert_query)
       conn.commit()
       conn.close()
