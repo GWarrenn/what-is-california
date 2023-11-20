@@ -50,9 +50,10 @@ def send_data_py():
       connection_success = True
 
     except Exception as e:
+      print(e)
       connection_success = False
 
-    dataReply = {'connection_status':connection_success,'connection_error':e}
+    dataReply = {'connection_status':connection_success}
 
     return jsonify(dataReply)
 
