@@ -42,7 +42,8 @@ def send_data_py():
 
       connection_success = True
 
-    except:
+    except Exception as e:
+      print(e)
       connection_success = False
 
     dataReply = {'connection_status':connection_success}
