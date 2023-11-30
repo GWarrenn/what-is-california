@@ -31,8 +31,14 @@ def send_data_py():
       dataGet['updated_coordinates'] = []
 
       for lat,long in dataGet['coordinates']:
-          dataGet['updated_coordinates'].append([float(str(lat)[:12]),float(str(long)[:10])])       
+          dataGet['updated_coordinates'].append([float(str(lat)[:12]),float(str(long)[:10])])
 
+      try:
+          dataGet['demo_justify'] = dataGet['demo_justify'].replace("'", "")
+          dataGet['demo_justify'] = dataGet['demo_justify'].replace('"', "")
+      except Exception as e:
+          print(e)
+          
       cursor = conn.cursor()
       insert_query = """ INSERT INTO what_is_ca_survey (id, coordinates, demo_hometown, demo_current_town, demo_live_years, 
                         demo_californian, demo_care, demo_justify) 
