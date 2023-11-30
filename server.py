@@ -36,6 +36,7 @@ def send_data_py():
       try:
           dataGet['demo_justify'] = dataGet['demo_justify'].replace("'", "")
           dataGet['demo_justify'] = dataGet['demo_justify'].replace('"', "")
+          dataGet['demo_justify'] = dataGet['demo_justify'].replace(';', "")
       except Exception as e:
           print(e)
           
